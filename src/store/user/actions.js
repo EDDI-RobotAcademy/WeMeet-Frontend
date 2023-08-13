@@ -48,5 +48,24 @@ export default {
         .catch (() =>{
             console.error
         })
-    }
+    },
+    requestLoginToSpring(_, payload) {
+        const { email, password } = payload;
+        return axiosInst.springAxiosInst.post('/user/sign-in', { email, password })
+          .then((res) => {
+            if (res.data.accessToken) {
+              alert('로그인 성공!');
+              return res.data; 
+            } else {
+              alert('이메일과 비밀번호를 다시 확인해주세요!');
+              
+            }
+          })
+          .catch((error) => {
+            alert('로그인 도중 문제가 생겼습니다.');
+            console.error(error);
+            
+          });
+      }
+
 }
