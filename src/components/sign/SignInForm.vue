@@ -7,6 +7,7 @@
           <v-text-field v-model="email" label="이메일" type="email" required outlined></v-text-field>
           <v-text-field v-model="password" label="비밀번호" type="password" required outlined></v-text-field>
           <v-btn type="submit" color="primary" class="submit-btn">로그인</v-btn>
+          <v-btn color="error" @click="onGoogleLogin" class="google-btn">구글 로그인</v-btn>
         </v-form>
       </v-card-text>
     </v-card>
@@ -26,10 +27,16 @@ export default {
       context.emit('submit', { email: email.value, password: password.value }); 
     };
 
+    const onGoogleLogin = () => {
+    
+      console.log('구글 로그인');
+    };
+
     return {
       email,
       password,
       onSubmit,
+      onGoogleLogin,
     };
   },
 };
@@ -58,5 +65,9 @@ export default {
 
 .submit-btn {
   margin-top: 16px;
+}
+
+.google-btn {
+  margin-top: 8px;
 }
 </style>

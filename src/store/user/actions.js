@@ -65,5 +65,13 @@ export default {
                 alert('로그인 도중 문제가 생겼습니다.');
                 console.error(error);
             });
-    }
+    },
+    requestSpringToAddressGoogleOauthLogin() {
+        return axiosInst.springAxiosInst.get('oauth/google')
+            .then((res) => {
+                console.log(res.data);
+                window.location.href = res.data;
+            })
+           
+    },
 }
