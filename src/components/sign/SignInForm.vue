@@ -23,7 +23,7 @@ export default {
     const password = ref('');
 
     const onSubmit = () => {
-      context.emit('submit', { email: email.value, password: password.value }); // context.emit 사용
+      context.emit('submit', { email: email.value, password: password.value }); 
     };
 
     return {
