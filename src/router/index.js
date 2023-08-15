@@ -3,6 +3,7 @@ import HomeView from '../views/HomeView.vue'
 
 import SignIn from '../views/sign/SignIn.vue'
 import SignUp from '../views/sign/SignUp.vue'
+import userRouter from "@/router/user";
 const routes = [
   {
     path: '/',
@@ -27,6 +28,7 @@ const routes = [
     name: 'SignUp',
     component: SignUp
   },
+  ...userRouter,
 ]
 
 const router = createRouter({

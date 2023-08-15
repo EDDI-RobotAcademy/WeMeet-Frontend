@@ -66,12 +66,14 @@ export default {
                 console.error(error);
             });
     },
-    requestSpringToAddressGoogleOauthLogin() {
-        return axiosInst.springAxiosInst.get('oauth/google')
-            .then((res) => {
-                console.log(res.data);
-                window.location.href = res.data;
-            })
-           
+    async requestGoogleOauthRedirectUrlToSpring() {
+        return axiosInst.springAxiosInst.get('/oauth/google')
+          .then(res=> {
+              window.location.href=res.data
+          })
     },
+    // eslint-disable-next-line no-unused-vars
+    async requestJwtOauthGoogleToSpring(_, code) {
+        return axiosInst.springAxiosInst.get("/oauth/google-login", {params: {code: code}})
+    }
 }
