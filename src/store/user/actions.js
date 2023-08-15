@@ -4,6 +4,7 @@
 // } from './mutation-types'
 
 import axiosInst from '@/utility/axiosInstance'
+import {SET_ACCESS_TOKEN, SET_USER} from "@/store/user/mutation-types";
 
 export default {
     requestSignUpToSpring(_, payload) {
@@ -72,8 +73,18 @@ export default {
               window.location.href=res.data
           })
     },
-    // eslint-disable-next-line no-unused-vars
-    async requestJwtOauthGoogleToSpring(_, code) {
+    async requestJwtOauthGoogleToSpring(context, code) {
         return axiosInst.springAxiosInst.get("/oauth/google-login", {params: {code: code}})
+          .then(async (res)=> {
+              console.log(res.data)
+              await context.commit(SET_ACCESS_TOKEN, res.data)
+              await context.dispatch("requestUserInfoToSpring")
+          })
+    },
+    async requestUserInfoToSpring(context) {
+        return axiosInst.springAxiosInst.get("/user", {headers: {Authorization: "Bearer " +context.state.accessToken}})
+          .then((res)=> {
+              context.commit(SET_USER, res.data)
+          })
     }
 }

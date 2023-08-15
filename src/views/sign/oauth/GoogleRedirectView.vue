@@ -20,7 +20,6 @@ export default {
     }
 
     onMounted(()=> {
-        console.log("aaaa")
         setRedirectData()
       }
     )
