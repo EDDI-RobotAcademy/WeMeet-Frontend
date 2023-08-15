@@ -20,6 +20,15 @@ export const actions = {
     user.email = 'test@test.com'
     user.password = 'test@123'      
     return user
+  }),
+
+  requestLoginToSpring: jest.fn((_, payload) => {
+    const { email, password } = payload;
+    if (email === 'test@test.com' && password === 'test@123') {
+      return Promise.resolve({ accessToken: 'mocked-access-token' });
+    } else {
+      return Promise.reject(new Error('Invalid credentials'));
+    }
   })
 }
 
@@ -33,7 +42,8 @@ export const state = {
         email: 'test@test.com',
         password: 'test@123',
     },
-  ]
+  ],
+  accessToken: null 
 }
 
 // __createMocks 함수를 직접 구현하거나 다른 방식으로 모킹하셔야 합니다.
