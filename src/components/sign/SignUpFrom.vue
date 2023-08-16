@@ -97,7 +97,8 @@ export default {
     ...mapActions(userModule, [
       "requestSignUpToSpring",
       "requestCheckNicknameToSpring",
-      "requestCheckEmailToSpring"
+      "requestCheckEmailToSpring",
+
     ]),
     async onSubmit() {
       const payload = {
@@ -130,28 +131,52 @@ export default {
         alert('비밀번호를 입력하세요.')
         return
       }
+      if (this.password != this.password_check) {
+        alert('비밀번호가 다릅니다.')
+        return
+      }
     },
 
-    async setNickNameCheck () {
-       this.nickname = await this.requestCheckNicknameToSpring({nickname: this.nickname})
-       if (this.nickname == false) {
-         alert('이미 등록된 닉네임 입니다.')
-       }else{
-         alert('사용 가능한 닉네임 입니다.')
-       }
-     },
-     async setEmailCheck () {
-      if (!this.isEmailValid) {
-        alert('올바른 이메일 형식을 입력해 주세요.');
-      }
-      this.email = await this.requestCheckEmailToSpring({email: this.email})
-      if (this.email == false) {
+    async setNickNameCheck() {
+  if (this.isNicknameEmpty) {
+    alert('닉네임을 작성해 주세요.');
+    return;
+  }
+  try {
+    const isNicknameAvailable = await this.requestCheckNicknameToSpring({ nickname: this.nickname });    
+    if (isNicknameAvailable) {
+      alert('이미 등록된 닉네임 입니다.');
+    } else {
+      alert('사용 가능한 닉네임 입니다.');
+    }
+  } catch (error) {
+    console.error('닉네임 중복 체크중 오류:', error);
+    alert('닉네임 중복 확인 중 오류가 발생했습니다.');
+  }
+},
+
+  async setEmailCheck() {
+    if (this.isEmailEmpty) {
+      alert('이메일을 작성해 주세요.')
+      return;
+    }
+    if (!this.isEmailValid) {
+      alert('올바른 이메일 형식을 입력해 주세요.');
+      return;
+    }
+    try {
+      const isEmailAvailable = await this.requestCheckEmailToSpring({email: this.email})
+      if (isEmailAvailable) {
         alert('이미 등록된 아이디 입니다.')
       }else{
         alert('사용 가능한 아이디 입니다.')
-      }
-     },     
-  },
+      }      
+    } catch (error) {
+      console.error('이메일 중복 체크중 오류:', error);
+    alert('이메일 중복 확인 중 오류가 발생했습니다.');
+  } 
+  }     
+},
 
   setup() {
     const nickname = ref("");
