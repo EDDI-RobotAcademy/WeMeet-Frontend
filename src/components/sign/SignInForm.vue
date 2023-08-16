@@ -16,27 +16,23 @@
 
 <script>
 import { ref } from 'vue';
+import {useStore} from "vuex";
 
 export default {
   emits: ['submit'],
   setup(_, context) { 
     const email = ref('');
     const password = ref('');
-
+    const store = useStore()
     const onSubmit = () => {
       context.emit('submit', { email: email.value, password: password.value }); 
-    };
-
-    const onGoogleLogin = () => {
-    
-      console.log('구글 로그인');
     };
 
     return {
       email,
       password,
       onSubmit,
-      onGoogleLogin,
+      onGoogleLogin: ()=>store.dispatch("userModule/requestGoogleOauthRedirectUrlToSpring"),
     };
   },
 };
