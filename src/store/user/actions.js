@@ -51,15 +51,13 @@ export default {
                 console.error
             })
     },
-    requestSignInToSpring(_, payload) {
+    requestSignInToSpring(context, payload) {
         const { email, password } = payload;
-        return axiosInst.springAxiosInst.post('/user/sign-in', { email, password })
-            .then((res) => {
+        return axiosInst.springAxiosInst.post('/user/sign-in', { email, password }, {withCredentials: true})
+            .then(async (res) => {
                 if (res.data.accessToken) {
-                    const accessTokenKey = process.env.VUE_APP_ACCESS_TOKEN_KEY;
-                    sessionStorage.setItem(accessTokenKey, res.data.accessToken);
-                    alert('로그인 성공!');
-                    return res.data
+                  axiosInst.springAxiosInst.defaults.headers.common.Authorization = `Bearer ${res.data.accessToken}`
+                  return await context.dispatch("requestUserInfoToSpring")
                 } else {
                     alert('이메일과 비밀번호를 다시 확인해주세요!');
                 }
