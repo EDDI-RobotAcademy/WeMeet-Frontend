@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import SignUpFrom from "@/components/sign/SignUpFrom.vue";
+import SignUpFrom from "@/components/sign/SignUpForm.vue";
 import { mapActions } from "vuex";
 import UserModule from "@/store/user/UserModule";
 
@@ -28,9 +28,8 @@ export default {
       }
     },
   },
-  
+
 };
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>

@@ -6,15 +6,8 @@
         <v-row justify="center">
 
           <v-col cols="7">
-            <v-text-field
-              v-model="nickname"
-              label="nickname"
-              variant="underlined"
-              hide-details="auto"
-              class="mt-4"
-              :ref="nicknameFieldRef"
-              @click="handleNicknameFieldClick"
-            />
+            <v-text-field v-model="nickname" label="nickname" variant="underlined" hide-details="auto" class="mt-4"
+              :ref="nicknameFieldRef" @click="handleNicknameFieldClick" />
             <p v-if="showNicknameMessage && isNicknameEmpty">닉네임을 작성해 주세요.</p>
           </v-col>
 
@@ -23,28 +16,14 @@
           </v-col>
 
           <v-col cols="8">
-            <v-text-field
-              v-model="name"
-              label="name"
-              variant="underlined"
-              hide-details="auto"
-              :ref="nameFieldRef"
-              @click="handleNameFieldClick"
-
-            />
+            <v-text-field v-model="name" label="name" variant="underlined" hide-details="auto" :ref="nameFieldRef"
+              @click="handleNameFieldClick" />
             <p v-if="showNameMessage && isNameEmpty">이름을 작성해 주세요.</p>
           </v-col>
 
           <v-col cols="7">
-            <v-text-field
-              v-model="email"
-              label="email"
-              variant="underlined"
-              hide-details="auto"
-              placeholder="wemeet@gmail.com"
-              :ref="emailFieldRef"
-              @click="handleEmailFieldClick"
-            />
+            <v-text-field v-model="email" label="email" variant="underlined" hide-details="auto"
+              placeholder="wemeet@gmail.com" :ref="emailFieldRef" @click="handleEmailFieldClick" />
             <p v-if="showEmailMessage && isEmailEmpty">이메일을 작성해 주세요.</p>
             <p v-else-if="showEmailMessage && !isEmailValid">올바른 이메일을 작성해주시기 바랍니다.</p>
           </v-col>
@@ -54,27 +33,15 @@
           </v-col>
 
           <v-col cols="8">
-            <v-text-field
-              v-model="password"
-              label="password"
-              type="password"
-              variant="underlined"
-              hide-details="auto"
-              :ref="passwordFieldRef"
-              @click="handlePasswordFieldClick"
-            />
+            <v-text-field v-model="password" label="password" type="password" variant="underlined" hide-details="auto"
+              :ref="passwordFieldRef" @click="handlePasswordFieldClick" />
             <p v-if="showPasswordMessage && isPasswordEmpty">비밀번호를 입력하세요.</p>
             <p v-else-if="showPasswordMessage && !isPasswordValid">비밀번호는 영문자+숫자+특수문자 조합으로 8~25자리 사용해야 합니다.</p>
           </v-col>
-          
+
           <v-col cols="8">
-            <v-text-field
-              v-model="password_check"
-              label="passowrd_check"
-              type="password"
-              variant="underlined"
-              hide-details="auto"
-            />
+            <v-text-field v-model="password_check" label="passowrd_check" type="password" variant="underlined"
+              hide-details="auto" />
           </v-col>
 
           <v-col cols="8">
@@ -100,51 +67,52 @@ export default {
       "requestCheckEmailToSpring"
 
     ]),
-async setNickNameCheck() {
-  try {
-    const isNicknameAvailable = await this.requestCheckNicknameToSpring({ nickname: this.nickname });    
-    if (this.isNicknameEmpty) {
-      alert('닉네임을 작성해 주세요.')
-    }
-    else if (isNicknameAvailable) {
-      alert('이미 등록된 닉네임 입니다.');
-    } else {
-      alert('사용 가능한 닉네임 입니다.');
-    }
-  } catch (error) {
-    console.error('닉네임 중복 체크중 오류:', error);
-    alert('닉네임 중복 확인 중 오류가 발생했습니다.');
-  }
-},
-
-  async setEmailCheck() {
-    try {
-      const isEmailAvailable = await this.requestCheckEmailToSpring({email: this.email})
-      if (this.isEmailEmpty) {
-        alert('이메일을 작성해 주세요.')
+    async setNickNameCheck() {
+      try {
+        const isNicknameAvailable = await this.requestCheckNicknameToSpring({ nickname: this.nickname });
+        if (this.isNicknameEmpty) {
+          alert('닉네임을 작성해 주세요.')
+        }
+        else if (isNicknameAvailable) {
+          alert('이미 등록된 닉네임 입니다.');
+        } else {
+          alert('사용 가능한 닉네임 입니다.');
+        }
+      } catch (error) {
+        console.error('닉네임 중복 체크중 오류:', error);
+        alert('닉네임 중복 확인 중 오류가 발생했습니다.');
       }
-      else if (isEmailAvailable) {
-        alert('이미 등록된 이메일 입니다.')
-      }else{
-        alert('사용 가능한 이메일 입니다.')
-      }      
-    } catch (error) {
-      console.error('이메일 중복 체크중 오류:', error);
-    alert('이메일 중복 확인 중 오류가 발생했습니다.');
-  } 
-},
+    },
 
-async onSubmit() {
+    async setEmailCheck() {
+      try {
+        const isEmailAvailable = await this.requestCheckEmailToSpring({ email: this.email })
+        if (this.isEmailEmpty) {
+          alert('이메일을 작성해 주세요.')
+        }
+        else if (isEmailAvailable) {
+          alert('이미 등록된 이메일 입니다.')
+        } else {
+          alert('사용 가능한 이메일 입니다.')
+        }
+      } catch (error) {
+        console.error('이메일 중복 체크중 오류:', error);
+        alert('이메일 중복 확인 중 오류가 발생했습니다.');
+      }
+    },
+
+    async onSubmit() {
       const payload = {
         nickname: this.nickname,
         name: this.name,
         email: this.email,
-        password: this.password
-      }      
+        password: this.password,
+        roleType: this.roleType
+      }
       if (this.isNicknameEmpty) {
         alert('닉네임을 작성해 주세요.');
         return
-      }  
+      }
       if (this.isNameEmpty) {
         alert('이름을 작성해 주세요.')
         return
@@ -162,26 +130,26 @@ async onSubmit() {
         return
       }
       await this.requestSignUpToSpring(payload);
-    },  
-},
+    },
+  },
 
-setup() {
-  const nickname = ref("");
-  const nicknameFieldRef = ref(null);
-  const showNicknameMessage = ref(false);
-  const isNicknameEmpty = computed(() => nickname.value === "");
-  const handleNicknameFieldClick = () => {
-    showNicknameMessage.value = true;
-  };
-  
-  const name = ref("");
-  const nameFieldRef = ref(null);
-  const showNameMessage = ref(false);
-  const isNameEmpty = computed(() => name.value === "");
-  const handleNameFieldClick = () => {
-    showNameMessage.value = true;
-  };
-    
+  setup() {
+    const nickname = ref("");
+    const nicknameFieldRef = ref(null);
+    const showNicknameMessage = ref(false);
+    const isNicknameEmpty = computed(() => nickname.value === "");
+    const handleNicknameFieldClick = () => {
+      showNicknameMessage.value = true;
+    };
+
+    const name = ref("");
+    const nameFieldRef = ref(null);
+    const showNameMessage = ref(false);
+    const isNameEmpty = computed(() => name.value === "");
+    const handleNameFieldClick = () => {
+      showNameMessage.value = true;
+    };
+
     const email = ref("");
     const emailFieldRef = ref(null);
     const showEmailMessage = ref(false);
@@ -245,5 +213,4 @@ setup() {
 };
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>
