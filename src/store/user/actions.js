@@ -8,8 +8,8 @@ import { SET_ACCESS_TOKEN, SET_USER } from "@/store/user/mutation-types";
 
 export default {
     requestSignUpToSpring(_, payload) {
-        const { nickname, name, email, password } = payload
-        return axiosInst.springAxiosInst.post('/user/sign-up', { nickname, name, email, password })
+        const { nickname, name, email, password, roleType } = payload
+        return axiosInst.springAxiosInst.post('/user/sign-up', { nickname, name, email, password, roleType })
             .then((res) => {
                 if (res.data == true) {
                     alert('회원가입에 성공하였습니다.')
@@ -39,7 +39,7 @@ export default {
     },
     requestCheckEmailToSpring(_, payload) {
         const { email } = payload
-        return axiosInst.springAxiosInst.get(`/member/check-email/${email}`)
+        return axiosInst.springAxiosInst.get(`/user/check-email/${email}`)
             .then((res) => {
                 if (res) {
                     console.log(res.data)
