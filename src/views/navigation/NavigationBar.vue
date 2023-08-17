@@ -33,7 +33,6 @@ export default {
 
     const setSignIn = () => {
       router.push('/sign-in');
-      store.dispatch("userModule/requestUserInfoToSpring")
     };
     const setTestOne = () => {
       router.push('/test');
