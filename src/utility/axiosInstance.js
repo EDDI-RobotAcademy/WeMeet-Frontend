@@ -5,7 +5,7 @@ const springAxiosInst = axios.create({
 springAxiosInst.interceptors.response.use((res)=> {
     return res;
 }, async (error)=> {
-    if(error.response?.data.msg==="Token type Bearer") {
+    if(error.response?.data.msg==="Expired Token: accessToken") {
         await springAxiosInst.get("/jwt/refresh", {withCredentials: true})
           .then((res) => {
             springAxiosInst.defaults.headers.common.Authorization = `Bearer ${res.data.accessToken}`
