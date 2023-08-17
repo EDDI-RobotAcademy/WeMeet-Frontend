@@ -7,7 +7,7 @@ springAxiosInst.interceptors.response.use((res)=> {
     return res;
 }, async (error)=> {
     if(error.response?.data.msg==="Expired Token: accessToken" || error.response?.data.msg==="Token is null or too short: accessToken") {
-        await springAxiosInst.get("/jwt/refresh", {withCredentials: true})
+        return await springAxiosInst.get("/jwt/refresh", {withCredentials: true})
           .then((res) => {
               springAxiosInst.defaults.headers.common.Authorization = `Bearer ${res.data.accessToken}`
               error.config.headers.Authorization = `Bearer ${res.data.accessToken}`
