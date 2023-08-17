@@ -29,7 +29,12 @@
               class="custom-icon"
             />
 
-           
+            <img
+              :src="kakaoIcon"
+              alt="Kakao아이콘"
+              @click="onKakaoLogin"
+              class="custom-icon"
+            />
             
           </div>
         </v-form>
@@ -42,7 +47,7 @@
 import { ref } from "vue";
 import { useStore } from "vuex";
 import googleIcon from "@/assets/google_btn.png";
-
+import kakaoIcon from "@/assets/kakao_btn.png";
 
 
 
@@ -63,7 +68,7 @@ export default {
       email,
       password,
       googleIcon,
-     
+      kakaoIcon,
       onSubmit,
       onGoogleLogin: () =>
         store.dispatch("userModule/requestGoogleOauthRedirectUrlToSpring"),

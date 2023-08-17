@@ -50,7 +50,7 @@ export default {
                 console.error
             })
     },
-    requestLoginToSpring(_, payload) {
+    requestSignInToSpring(_, payload) {
         const { email, password } = payload;
         return axiosInst.springAxiosInst.post('/user/sign-in', { email, password })
             .then((res) => {
@@ -75,6 +75,20 @@ export default {
     },
     async requestJwtOauthGoogleToSpring(context, code) {
         return axiosInst.springAxiosInst.get("/oauth/google-login", { params: { code: code } })
+            .then(async (res) => {
+                console.log(res.data)
+                await context.commit(SET_ACCESS_TOKEN, res.data)
+                await context.dispatch("requestUserInfoToSpring")
+            })
+    },
+    async requestKakaoOauthRedirectUrlToSpring() {
+        return axiosInst.springAxiosInst.get('/oauth/kakao')
+            .then(res => {
+                window.location.href = res.data
+            })
+    },
+    async requestJwtOauthKakaoToSpring(context, code) {
+        return axiosInst.springAxiosInst.get("/oauth/kakao-login", { params: { code: code } })
             .then(async (res) => {
                 console.log(res.data)
                 await context.commit(SET_ACCESS_TOKEN, res.data)
