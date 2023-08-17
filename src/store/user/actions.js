@@ -58,6 +58,7 @@ export default {
                     const accessTokenKey = process.env.VUE_APP_ACCESS_TOKEN_KEY;
                     sessionStorage.setItem(accessTokenKey, res.data.accessToken);
                     alert('로그인 성공!');
+                    return res.data
                 } else {
                     alert('이메일과 비밀번호를 다시 확인해주세요!');
                 }

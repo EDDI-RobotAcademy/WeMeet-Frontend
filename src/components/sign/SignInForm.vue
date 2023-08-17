@@ -4,6 +4,7 @@
       <v-card-title class="form-title">로그인</v-card-title>
       <v-card-text>
         <v-form @submit.prevent="onSubmit">
+
           <v-text-field
             v-model="email"
             label="이메일"
@@ -19,7 +20,7 @@
             outlined
           ></v-text-field>
           <div class="button-group">
-            <v-btn type="submit" color="primary" class="submit-btn"
+            <v-btn @click.prevent="onSubmit" type="submit" color="primary" class="submit-btn"
               >로그인</v-btn
             >
             <img
@@ -37,6 +38,7 @@
             />
             
           </div>
+
         </v-form>
       </v-card-text>
     </v-card>
@@ -44,6 +46,7 @@
 </template>
 
 <script>
+
 import { ref } from "vue";
 import { useStore } from "vuex";
 import googleIcon from "@/assets/google_btn.png";
@@ -52,30 +55,30 @@ import kakaoIcon from "@/assets/kakao_btn.png";
 
 
 export default {
-  emits: ["submit"],
-  setup(_, context) {
-    const email = ref("");
-    const password = ref("");
+  
+  setup() {
+    const email = ref('');
+    const password = ref('');
     const store = useStore();
-    const onSubmit = () => {
-      context.emit("submit", { email: email.value, password: password.value });
-    };
-
-
-
-
+    
     return {
       email,
       password,
       googleIcon,
       kakaoIcon,
-      onSubmit,
       onGoogleLogin: () =>
         store.dispatch("userModule/requestGoogleOauthRedirectUrlToSpring"),
       onKakaoLogin: () =>
         store.dispatch("userModule/requestKakaoOauthRedirectUrlToSpring"),
+
     };
   },
+  methods: {
+    async onSubmit() {
+      const { email, password } = this
+      this.$emit("submit", { email, password })
+    }
+  }
 };
 </script>
 
