@@ -50,7 +50,7 @@ export default {
                 console.error
             })
     },
-    requestLoginToSpring(_, payload) {
+    requestSignInToSpring(_, payload) {
         const { email, password } = payload;
         return axiosInst.springAxiosInst.post('/user/sign-in', { email, password })
             .then((res) => {
