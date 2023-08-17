@@ -50,7 +50,7 @@
           </v-col>
 
           <v-col cols="1">
-            <v-btn @click="setEmailCheck">check</v-btn>
+            <v-btn @click="setEmailCheck">중복확인</v-btn>
           </v-col>
 
           <v-col cols="8">
@@ -98,23 +98,53 @@ export default {
       "requestSignUpToSpring",
       "requestCheckNicknameToSpring",
       "requestCheckEmailToSpring"
+
     ]),
-    async onSubmit() {
+async setNickNameCheck() {
+  try {
+    const isNicknameAvailable = await this.requestCheckNicknameToSpring({ nickname: this.nickname });    
+    if (this.isNicknameEmpty) {
+      alert('닉네임을 작성해 주세요.')
+    }
+    else if (isNicknameAvailable) {
+      alert('이미 등록된 닉네임 입니다.');
+    } else {
+      alert('사용 가능한 닉네임 입니다.');
+    }
+  } catch (error) {
+    console.error('닉네임 중복 체크중 오류:', error);
+    alert('닉네임 중복 확인 중 오류가 발생했습니다.');
+  }
+},
+
+  async setEmailCheck() {
+    try {
+      const isEmailAvailable = await this.requestCheckEmailToSpring({email: this.email})
+      if (this.isEmailEmpty) {
+        alert('이메일을 작성해 주세요.')
+      }
+      else if (isEmailAvailable) {
+        alert('이미 등록된 이메일 입니다.')
+      }else{
+        alert('사용 가능한 이메일 입니다.')
+      }      
+    } catch (error) {
+      console.error('이메일 중복 체크중 오류:', error);
+    alert('이메일 중복 확인 중 오류가 발생했습니다.');
+  } 
+},
+
+async onSubmit() {
       const payload = {
         nickname: this.nickname,
         name: this.name,
         email: this.email,
         password: this.password
-      }
-      await this.requestSignUpToSpring(payload);
-      
+      }      
       if (this.isNicknameEmpty) {
         alert('닉네임을 작성해 주세요.');
         return
-      }
-      if (!this.setNickNameCheck == false) {
-        alert('닉네임 중복확인을 해주세요.')
-      }      
+      }  
       if (this.isNameEmpty) {
         alert('이름을 작성해 주세요.')
         return
@@ -123,109 +153,93 @@ export default {
         alert('이메일을 작성해 주세요.');
         return
       }
-      if (!this.setEmailCheck == false) {
-        alert('이메일 중복확인을 해주세요.')
-      }
       if (this.isPasswordEmpty) {
         alert('비밀번호를 입력하세요.')
         return
       }
-    },
-
-    async setNickNameCheck () {
-       this.nickname = await this.requestCheckNicknameToSpring({nickname: this.nickname})
-       if (this.nickname == false) {
-         alert('이미 등록된 닉네임 입니다.')
-       }else{
-         alert('사용 가능한 닉네임 입니다.')
-       }
-     },
-     async setEmailCheck () {
-      if (!this.isEmailValid) {
-        alert('올바른 이메일 형식을 입력해 주세요.');
+      if (this.password != this.password_check) {
+        alert('비밀번호가 다릅니다.')
+        return
       }
-      this.email = await this.requestCheckEmailToSpring({email: this.email})
-      if (this.email == false) {
-        alert('이미 등록된 아이디 입니다.')
-      }else{
-        alert('사용 가능한 아이디 입니다.')
-      }
-     },     
-  },
+      await this.requestSignUpToSpring(payload);
+    },  
+},
 
-  setup() {
-    const nickname = ref("");
-    const name = ref("");
-    const email = ref("");
-    const password = ref("");
-    const password_check = ref("");
-
-    const nicknameFieldRef = ref(null);
-    const nameFieldRef = ref(null);
-    const emailFieldRef = ref(null);
-    const passwordFieldRef = ref(null);
-
-    const showNicknameMessage = ref(false);
-    const showNameMessage = ref(false);
-    const showEmailMessage = ref(false);
-    const showPasswordMessage = ref(false);
+setup() {
+  const nickname = ref("");
+  const nicknameFieldRef = ref(null);
+  const showNicknameMessage = ref(false);
+  const isNicknameEmpty = computed(() => nickname.value === "");
+  const handleNicknameFieldClick = () => {
+    showNicknameMessage.value = true;
+  };
+  
+  const name = ref("");
+  const nameFieldRef = ref(null);
+  const showNameMessage = ref(false);
+  const isNameEmpty = computed(() => name.value === "");
+  const handleNameFieldClick = () => {
+    showNameMessage.value = true;
+  };
     
-    const isNicknameEmpty = computed(() => nickname.value === "");
-    const isNameEmpty = computed(() => name.value === "");
+    const email = ref("");
+    const emailFieldRef = ref(null);
+    const showEmailMessage = ref(false);
     const isEmailEmpty = computed(() => email.value === "");
     const isEmailValid = computed(() => {
       const emailRegex = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/;
       return emailRegex.test(email.value);
     });
+    const handleEmailFieldClick = () => {
+      showEmailMessage.value = true;
+    };
+
+    const password = ref("");
+    const passwordFieldRef = ref(null);
+    const showPasswordMessage = ref(false);
     const isPasswordEmpty = computed(() => password.value === "");
     const isPasswordValid = computed(() => {
       const passwordRegex = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,25}$/;
       return passwordRegex.test(password.value);
     });
-
-    const handleEmailFieldClick = () => {
-      showEmailMessage.value = true;
-    };
-    const handleNicknameFieldClick = () => {
-      showNicknameMessage.value = true;
-    };
-    const handleNameFieldClick = () => {
-      showNameMessage.value = true;
-    };
     const handlePasswordFieldClick = () => {
       showPasswordMessage.value = true;
     };
 
+    const password_check = ref("");
+
+    const roleType = ref("NORMAL")
+
     return {
       nickname,
+      nicknameFieldRef,
+      showNicknameMessage,
+      isNicknameEmpty,
+      handleNicknameFieldClick,
+
       name,
+      nameFieldRef,
+      showNameMessage,
+      isNameEmpty,
+      handleNameFieldClick,
+
       email,
+      emailFieldRef,
+      showEmailMessage,
+      isEmailEmpty,
+      isEmailValid,
+      handleEmailFieldClick,
+
       password,
+      passwordFieldRef,
+      showPasswordMessage,
+      isPasswordEmpty,
+      isPasswordValid,
+      handlePasswordFieldClick,
+
       password_check,
 
-      nicknameFieldRef,
-      nameFieldRef,
-      emailFieldRef,
-      passwordFieldRef,
-
-      showNicknameMessage,
-      showNameMessage,
-      showEmailMessage,
-      showPasswordMessage,
-
-      isNicknameEmpty,
-      isNameEmpty,
-      isEmailEmpty,
-      isPasswordEmpty,
-
-      isEmailValid,
-      isPasswordValid,
-
-      handleEmailFieldClick,
-      handleNicknameFieldClick,
-      handleNameFieldClick,
-      handlePasswordFieldClick,
-      
+      roleType
     };
   }
 };
