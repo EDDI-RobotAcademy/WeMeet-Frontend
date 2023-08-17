@@ -13,7 +13,7 @@
 <script>
 import SignInForm from "@/components/sign/SignInForm.vue";
 import { mapActions } from "vuex";
-import UserModule from "@/store/user/UserModule";
+const userModule = 'userModule'
 
 export default {
   components: {
@@ -23,23 +23,15 @@ export default {
     return {};
   },
   methods: {
-    ...mapActions(UserModule, ["requestSignInToSpring"]),
+    ...mapActions(userModule, ["requestSignInToSpring"]),
     async onSubmit(payload) {
-      try {
-        const signInResult = await this.requestSignInToSpring(payload);
-
-        if (signInResult) {
-          this.$router.push("/");
-        } else {
-          alert("로그인 실패: 아이디나 비밀번호를 확인하세요.");
-        }
-      } catch (error) {
-        alert("로그인 도중 오류발생:", error);
+      const signInResult = await this.requestSignInToSpring(payload);
+      if (signInResult) {
+        this.$router.push("/");
       }
     },
   },
 };
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>

@@ -1,30 +1,27 @@
 <template>
-  <sign-up-from @submit="onSubmit"></sign-up-from>
+  <sign-up-form @submit="onSubmit" />
 </template>
 
 <script>
-import SignUpFrom from "@/components/sign/SignUpForm.vue";
+import SignUpForm from "@/components/sign/SignUpForm.vue";
 import { mapActions } from "vuex";
-import UserModule from "@/store/user/UserModule";
+const userModule = 'userModule';
 
 export default {
   components: {
-    SignUpFrom,
+    SignUpForm,
   },
   setup() {
     return {};
   },
 
   methods: {
-    ...mapActions(UserModule, ["requestSignUpToSpring"]),
+    ...mapActions(userModule, ["requestSignUpToSpring"]),
     async onsubmit(payload) {
-      const SignUpComponent = this.requestSignUpToSpring(payload);
-      try {
-        if (SignUpComponent != false) {
-          this.$router.push("/sign-in");
-        }
-      } catch (error) {
-        alert("회원가입 도중 오류발생:", console.error);
+      const SignUpComponent = await this.requestSignUpToSpring(payload);
+      if (SignUpComponent) {
+        console.log(SignUpComponent)
+        this.$router.push("/sign-in");
       }
     },
   },

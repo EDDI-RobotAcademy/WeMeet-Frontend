@@ -6,7 +6,7 @@
         <v-form @submit.prevent="onSubmit">
           <v-text-field v-model="email" label="이메일" type="email" required outlined></v-text-field>
           <v-text-field v-model="password" label="비밀번호" type="password" required outlined></v-text-field>
-          <v-btn type="submit" color="primary" class="submit-btn">로그인</v-btn>
+          <v-btn @click.prevent="onSubmit" type="submit" color="primary" class="submit-btn">로그인</v-btn>
           <v-btn color="error" @click="onGoogleLogin" class="google-btn">구글 로그인</v-btn>
         </v-form>
       </v-card-text>
@@ -16,25 +16,25 @@
 
 <script>
 import { ref } from 'vue';
-import {useStore} from "vuex";
-
+import { useStore } from "vuex";
 export default {
-  emits: ['submit'],
-  setup(_, context) { 
+  setup() {
     const email = ref('');
     const password = ref('');
-    const store = useStore()
-    const onSubmit = () => {
-      context.emit('submit', { email: email.value, password: password.value }); 
-    };
+    const store = useStore();
 
     return {
       email,
       password,
-      onSubmit,
-      onGoogleLogin: ()=>store.dispatch("userModule/requestGoogleOauthRedirectUrlToSpring"),
+      onGoogleLogin: () => store.dispatch("userModule/requestGoogleOauthRedirectUrlToSpring"),
     };
   },
+  methods: {
+    async onSubmit() {
+      const { email, password } = this
+      this.$emit("submit", { email, password })
+    }
+  }
 };
 </script>
 
