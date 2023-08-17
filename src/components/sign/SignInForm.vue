@@ -4,10 +4,33 @@
       <v-card-title class="form-title">로그인</v-card-title>
       <v-card-text>
         <v-form @submit.prevent="onSubmit">
-          <v-text-field v-model="email" label="이메일" type="email" required outlined></v-text-field>
-          <v-text-field v-model="password" label="비밀번호" type="password" required outlined></v-text-field>
-          <v-btn type="submit" color="primary" class="submit-btn">로그인</v-btn>
-          <v-btn color="error" @click="onGoogleLogin" class="google-btn">구글 로그인</v-btn>
+          <v-text-field
+            v-model="email"
+            label="이메일"
+            type="email"
+            required
+            outlined
+          ></v-text-field>
+          <v-text-field
+            v-model="password"
+            label="비밀번호"
+            type="password"
+            required
+            outlined
+          ></v-text-field>
+          <div class="button-group">
+            <v-btn type="submit" color="primary" class="submit-btn"
+              >로그인</v-btn
+            >
+            <img
+              :src="googleIcon"
+              alt="Google아이콘"
+              @click="onGoogleLogin"
+              class="custom-icon"
+            />
+           
+            
+          </div>
         </v-form>
       </v-card-text>
     </v-card>
@@ -15,24 +38,30 @@
 </template>
 
 <script>
-import { ref } from 'vue';
-import {useStore} from "vuex";
+import { ref } from "vue";
+import { useStore } from "vuex";
 
 export default {
-  emits: ['submit'],
-  setup(_, context) { 
-    const email = ref('');
-    const password = ref('');
-    const store = useStore()
+  emits: ["submit"],
+  setup(_, context) {
+    const email = ref("");
+    const password = ref("");
+    const store = useStore();
     const onSubmit = () => {
-      context.emit('submit', { email: email.value, password: password.value }); 
+      context.emit("submit", { email: email.value, password: password.value });
     };
+
+    const googleIcon = require("@/assets/google_btn.png");
+    
 
     return {
       email,
       password,
+      googleIcon,
       onSubmit,
-      onGoogleLogin: ()=>store.dispatch("userModule/requestGoogleOauthRedirectUrlToSpring"),
+      onGoogleLogin: () =>
+        store.dispatch("userModule/requestGoogleOauthRedirectUrlToSpring"),
+      
     };
   },
 };
@@ -61,9 +90,21 @@ export default {
 
 .submit-btn {
   margin-top: 16px;
+  width: 100%;
 }
 
-.google-btn {
+
+.custom-icon {
   margin-top: 8px;
+  width: 100%; 
+  height: auto; 
+  cursor: pointer;
+}
+
+.button-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 16px;
 }
 </style>
