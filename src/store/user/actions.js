@@ -5,6 +5,7 @@
 
 import axiosInst from '@/utility/axiosInstance'
 import { SET_USER } from "@/store/user/mutation-types";
+import router from "@/router";
 
 export default {
     requestSignUpToSpring(_, payload) {
@@ -87,5 +88,13 @@ export default {
                 context.commit(SET_USER, res.data)
               return res
             })
-    }
+    },
+  async requestSignOut(context) {
+      return axiosInst.springAxiosInst.delete("/user/sign-out", {withCredentials:true})
+        .then(()=> {
+          context.commit("SET_USER", {})
+          delete axiosInst.springAxiosInst.defaults.headers.common.Authorization
+          router.push('/')
+        })
+  }
 }

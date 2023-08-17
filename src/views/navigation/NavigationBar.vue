@@ -1,4 +1,4 @@
-<template lang="">
+<template>
   <v-app-bar :style="appBarStyle" scroll-behavior="elevate">
     <v-spacer/>
     <v-col cols="auto">
@@ -11,10 +11,11 @@
   <v-spacer/>
   <v-spacer/>
       <v-col cols="auto">
-        <v-btn>이벤트</v-btn>
+        <v-btn @click="a">이벤트</v-btn>
       </v-col>
       <v-col cols="auto">
-      <v-btn rounded variant="outlined" style="color: orange" @click="setSignIn">로그인</v-btn>
+      <v-btn  v-if="!user.hasOwnProperty('email')" rounded variant="outlined" style="color: orange" @click="setSignIn">로그인</v-btn>
+        <v-btn v-if="user.hasOwnProperty('email')" rounded variant="outlined" style="color: orange" @click="signOut">로그아웃</v-btn>
       </v-col>
       <v-btn icon="mdi-dots-vertical" @click="setTestOne"></v-btn>
     <v-spacer/>
@@ -22,10 +23,12 @@
 </template>
 
 <script>
-import { ref, onMounted } from 'vue';
+import {ref, onMounted, computed} from 'vue';
 import router from '@/router'
+import {useStore} from "vuex";
 export default {
   setup () {
+    const store = useStore()
     const appBarStyle = ref({ backgroundColor: 'transparent' });
 
     const setSignIn = () => {
@@ -34,6 +37,9 @@ export default {
     const setTestOne = () => {
       router.push('/test');
     };
+    const signOut= ()=>{
+      store.dispatch("userModule/requestSignOut")
+    }
 
     onMounted(() => {
       // 스크롤 이벤트를 추가하여 스크롤을 감지하고 배경을 변경합니다.
@@ -52,7 +58,9 @@ export default {
     return {
       appBarStyle,
       setSignIn,
-      setTestOne
+      setTestOne,
+      user: computed(()=>store.state.userModule.user),
+      signOut,
     };
   }
 }
