@@ -82,6 +82,20 @@ export default {
                 await context.dispatch("requestUserInfoToSpring")
             })
     },
+    async requestKakaoOauthRedirectUrlToSpring() {
+        return axiosInst.springAxiosInst.get('/oauth/kakao')
+            .then(res => {
+                window.location.href = res.data
+            })
+    },
+    async requestJwtOauthKakaoToSpring(context, code) {
+        return axiosInst.springAxiosInst.get("/oauth/kakao-login", { params: { code: code } })
+            .then(async (res) => {
+                console.log(res.data)
+                await context.commit(SET_ACCESS_TOKEN, res.data)
+                await context.dispatch("requestUserInfoToSpring")
+            })
+    },
     async requestUserInfoToSpring(context) {
         return axiosInst.springAxiosInst.get("/user", { headers: { Authorization: "Bearer " + context.state.accessToken } })
             .then((res) => {
