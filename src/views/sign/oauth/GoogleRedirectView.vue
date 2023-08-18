@@ -7,6 +7,7 @@
 import {useRoute} from "vue-router";
 import {onMounted} from "vue";
 import {useStore} from "vuex";
+import router from "@/router";
 
 export default {
   setup() {
@@ -17,6 +18,10 @@ export default {
       const route = useRoute()
       const code = route.query.code
       await requestJwtOauthGoogleToSpring(code)
+        .then(()=>{
+          router.push('/')
+        })
+
     }
 
     onMounted(()=> {
