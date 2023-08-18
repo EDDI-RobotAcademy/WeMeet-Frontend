@@ -1,12 +1,12 @@
 <template>
-  <v-container fluid>
+  <v-container fluid class="sign-up-container">
     <v-card class="mx-auto" max-width="800">
-      <v-card-title class="mx-auto mt-4">회원가입</v-card-title>
+      <v-card-title class="text-h4 sign-up-text" align="center" >회원가입</v-card-title>
       <v-form @submit.prevent="onSubmit" ref="form" class="signUpForm">
         <v-row justify="center">
 
           <v-col cols="7">
-            <v-text-field v-model="nickname" label="nickname" variant="underlined" hide-details="auto" class="mt-4"
+            <v-text-field v-model="nickname" label="별명" variant="underlined" hide-details="auto" class="mt-4"
               :ref="nicknameFieldRef" @click="handleNicknameFieldClick" />
             <p v-if="showNicknameMessage && isNicknameEmpty">닉네임을 작성해 주세요.</p>
           </v-col>
@@ -16,13 +16,13 @@
           </v-col>
 
           <v-col cols="8">
-            <v-text-field v-model="name" label="name" variant="underlined" hide-details="auto" :ref="nameFieldRef"
+            <v-text-field v-model="name" label="이름" variant="underlined" hide-details="auto" :ref="nameFieldRef"
               @click="handleNameFieldClick" />
             <p v-if="showNameMessage && isNameEmpty">이름을 작성해 주세요.</p>
           </v-col>
 
           <v-col cols="7">
-            <v-text-field v-model="email" label="email" variant="underlined" hide-details="auto"
+            <v-text-field v-model="email" label="이메일" variant="underlined" hide-details="auto"
               placeholder="wemeet@gmail.com" :ref="emailFieldRef" @click="handleEmailFieldClick" />
             <p v-if="showEmailMessage && isEmailEmpty">이메일을 작성해 주세요.</p>
             <p v-else-if="showEmailMessage && !isEmailValid">올바른 이메일을 작성해주시기 바랍니다.</p>
@@ -33,19 +33,19 @@
           </v-col>
 
           <v-col cols="8">
-            <v-text-field v-model="password" label="password" type="password" variant="underlined" hide-details="auto"
+            <v-text-field v-model="password" label="비밀번호" type="password" variant="underlined" hide-details="auto"
               :ref="passwordFieldRef" @click="handlePasswordFieldClick" />
             <p v-if="showPasswordMessage && isPasswordEmpty">비밀번호를 입력하세요.</p>
             <p v-else-if="showPasswordMessage && !isPasswordValid">비밀번호는 영문자+숫자+특수문자 조합으로 8~25자리 사용해야 합니다.</p>
           </v-col>
 
           <v-col cols="8">
-            <v-text-field v-model="password_check" label="passowrd_check" type="password" variant="underlined"
+            <v-text-field v-model="password_check" label="비밀번호 확인" type="password" variant="underlined"
               hide-details="auto" />
           </v-col>
 
           <v-col cols="8">
-            <v-btn width="100%" class="mb-5" type="submit">확인</v-btn>
+            <v-btn width="100%" class="sign-up-check" type="submit">확인</v-btn>
           </v-col>
 
         </v-row>
@@ -57,6 +57,7 @@
 <script>
 import { computed, ref } from "vue";
 import { mapActions } from "vuex";
+import "@/assets/css/Sign.css"
 const userModule = 'userModule'
 
 export default {

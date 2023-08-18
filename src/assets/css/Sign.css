@@ -1,0 +1,48 @@
+/* Sign-Up */
+.sign-up-container{
+    margin-top: 3rem;
+    margin-bottom: 5rem;
+  }
+  .sign-up-main{  
+    margin: auto;
+  }
+  .sign-up-text{
+    margin: 2rem;
+    margin-top: 2rem;
+  }
+  .sign-up-check{
+    margin: 1rem auto;
+    margin-bottom: 3rem;
+    background-color: rgba(255, 199, 14, 0)
+  }
+  /* Sign-In */
+  .login-form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 75vh;
+  }
+  
+  .form-card {
+    max-width: "800";
+    width: 100%;
+    padding: 24px;
+  }
+  
+  .form-title {
+    font-size: 24px;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 16px;
+  }
+  
+  .submit-btn {
+    background-color: rgb(255, 187, 0);
+    color: white;
+  }
+  
+  .google-btn {
+    margin: 1rem;
+    background-color: white;
+    color: aqua;
+  }
