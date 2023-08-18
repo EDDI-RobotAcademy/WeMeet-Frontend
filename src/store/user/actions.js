@@ -53,11 +53,11 @@ export default {
     },
     requestSignInToSpring(context, payload) {
         const { email, password } = payload;
-        return axiosInst.springAxiosInst.post('/user/sign-in', { email, password }, {withCredentials: true})
+        return axiosInst.springAxiosInst.post('/user/sign-in', { email, password }, { withCredentials: true })
             .then(async (res) => {
                 if (res.data.accessToken) {
-                  axiosInst.springAxiosInst.defaults.headers.common.Authorization = `Bearer ${res.data.accessToken}`
-                  return await context.dispatch("requestUserInfoToSpring")
+                    axiosInst.springAxiosInst.defaults.headers.common.Authorization = `Bearer ${res.data.accessToken}`
+                    return await context.dispatch("requestUserInfoToSpring")
                 } else {
                     alert('이메일과 비밀번호를 다시 확인해주세요!');
                 }
@@ -74,10 +74,10 @@ export default {
             })
     },
     async requestJwtOauthGoogleToSpring(context, code) {
-        return axiosInst.springAxiosInst.get("/oauth/google-login", { params: { code: code } , withCredentials:true})
+        return axiosInst.springAxiosInst.get("/oauth/google-login", { params: { code: code }, withCredentials: true })
             .then(async (res) => {
-              axiosInst.springAxiosInst.defaults.headers.common.Authorization = `Bearer ${res.data}`
-              return await context.dispatch("requestUserInfoToSpring")
+                axiosInst.springAxiosInst.defaults.headers.common.Authorization = `Bearer ${res.data}`
+                return await context.dispatch("requestUserInfoToSpring")
             })
     },
     async requestKakaoOauthRedirectUrlToSpring() {
@@ -87,26 +87,26 @@ export default {
             })
     },
     async requestJwtOauthKakaoToSpring(context, code) {
-        return axiosInst.springAxiosInst.get("/oauth/kakao-login", { params: { code: code } })
+        return axiosInst.springAxiosInst.get("/oauth/kakao-login", { params: { code: code }, withCredentials: true })
             .then(async (res) => {
                 console.log(res.data)
-                await context.commit(SET_ACCESS_TOKEN, res.data)
-                await context.dispatch("requestUserInfoToSpring")
+                axiosInst.springAxiosInst.defaults.headers.common.Authorization = `Bearer ${res.data}`
+                return await context.dispatch("requestUserInfoToSpring")
             })
     },
     async requestUserInfoToSpring(context) {
-        return axiosInst.springAxiosInst.get("/user" )
+        return axiosInst.springAxiosInst.get("/user")
             .then((res) => {
                 context.commit(SET_USER, res.data)
-              return res
+                return res
             })
     },
-  async requestSignOut(context) {
-      return axiosInst.springAxiosInst.delete("/user/sign-out", {withCredentials:true})
-        .then(()=> {
-          context.commit("SET_USER", {})
-          delete axiosInst.springAxiosInst.defaults.headers.common.Authorization
-          router.push('/')
-        })
-  }
+    async requestSignOut(context) {
+        return axiosInst.springAxiosInst.delete("/user/sign-out", { withCredentials: true })
+            .then(() => {
+                context.commit("SET_USER", {})
+                delete axiosInst.springAxiosInst.defaults.headers.common.Authorization
+                router.push('/')
+            })
+    }
 }
