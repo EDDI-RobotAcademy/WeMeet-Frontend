@@ -1,6 +1,6 @@
 /* Sign-Up */
 .sign-up-container{
-    margin-top: 3rem;
+    margin-top: 10rem;
     margin-bottom: 5rem;
   }
   .sign-up-main{  
@@ -20,11 +20,11 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 75vh;
+    height: 60vh;
   }
   
   .form-card {
-    max-width: "800";
+    max-width: 400px;
     width: 100%;
     padding: 24px;
   }
@@ -37,12 +37,21 @@
   }
   
   .submit-btn {
-    background-color: rgb(255, 187, 0);
-    color: white;
+    margin-top: 1rem;
+    width: 100%;
   }
   
-  .google-btn {
-    margin: 1rem;
-    background-color: white;
-    color: aqua;
+  
+  .custom-icon {
+    margin-top: 1rem;
+    width: 100%; 
+    height: auto; 
+    cursor: pointer;
+  }
+  
+  .button-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 16px;
   }

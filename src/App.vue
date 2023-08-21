@@ -1,10 +1,8 @@
 <template>
   <v-app class="app-container">
-    <div >
-      <v-main>
+    <div>
       <navigation-bar/>
       <router-view/>
-    </v-main>    
   </div>
   <navigation-foot-bar/>
 </v-app>
@@ -29,10 +27,10 @@ html, body {
     padding: 0;
     margin: 0;
   }
-  .app-container {
+  /* .app-container {
     padding: 0;
     max-width: 1200px;
     width: 100%;
     margin: auto;
-  }
+  } */
 </style>
