@@ -1,6 +1,6 @@
 <template>
   <v-footer class="bg-grey-lighten-4 footer-content">
-    <v-row class="" justify="left" no-gutters>
+    <v-row class="" no-gutters>
       <v-col cols="12">
         <h1 class="footer-name">We-Meet</h1>
       </v-col>
