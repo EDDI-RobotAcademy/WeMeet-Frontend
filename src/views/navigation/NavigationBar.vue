@@ -2,7 +2,6 @@
   <v-app-bar :style="appBarStyle" scroll-behavior="elevate">
     <v-spacer/>
     <v-col cols="auto">
-    <v-btn to="/test2">123</v-btn>
   </v-col>
   <v-col cols="auto">
     <v-btn variant="plain" :ripple="false" to="/">We-Meet</v-btn>
@@ -11,7 +10,6 @@
   <v-spacer/>
   <v-spacer/>
       <v-col cols="auto">
-        <v-btn @click="a">이벤트</v-btn>
       </v-col>
       <v-col cols="auto">
       <v-btn  v-if="!user.hasOwnProperty('email')" rounded variant="outlined" style="color: orange" @click="setSignIn">로그인</v-btn>
@@ -44,6 +42,8 @@ export default {
     onMounted(() => {
       // 스크롤 이벤트를 추가하여 스크롤을 감지하고 배경을 변경합니다.
       window.addEventListener('scroll', handleScroll);
+      store.dispatch("userModule/requestUserInfoToSpring")
+      console.log("aaa")
     });
 
     const handleScroll = () => {
