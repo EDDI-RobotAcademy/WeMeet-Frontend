@@ -13,7 +13,7 @@
 </template>
 
 <script>
-import MoimCard from "@/components/moimForm/MoimCard.vue";
+import MoimCard from "@/components/moimComp/MoimCard.vue";
 import router from "@/router";
 
 export default {

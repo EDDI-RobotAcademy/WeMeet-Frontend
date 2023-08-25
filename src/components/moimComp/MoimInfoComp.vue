@@ -8,7 +8,7 @@
 <script>
 import {useStore} from "vuex";
 import {computed} from "vue";
-import JoinBtn from "@/components/moimForm/moimComp/JoinBtn.vue";
+import JoinBtn from "@/components/moimComp/moimComp/JoinBtn.vue";
 
 export default {
   name: "MoimInfoComp",
