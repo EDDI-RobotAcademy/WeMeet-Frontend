@@ -1,9 +1,10 @@
 <template>
   <v-app class="app-container">
-    <div>
-      <navigation-bar/>
+    <navigation-bar/>
+    <HelloWorld v-if="!showMain"/>
+      <v-main v-if="showMain">
       <router-view/>
-  </div>
+      </v-main>
   <navigation-foot-bar/>
 </v-app>
 </template>
@@ -11,11 +12,31 @@
 <script>
 import NavigationBar from '@/views/navigation/NavigationBar.vue'
 import NavigationFootBar from '@/views/navigation/NavigationFootBar.vue'
+import {useRoute} from "vue-router";
+import HelloWorld from "@/components/main/HelloWorld.vue";
 export default {
   name: 'App',
   components: {
+    HelloWorld,
     NavigationBar,
     NavigationFootBar
+  },
+  setup() {
+    const route = useRoute()
+    return {
+      route
+    }
+  },
+  computed: {
+    path() {
+      return this.route.path
+    },
+    showMain() {
+      return !!(this.isLogin || this.path !== '/')
+    },
+    isLogin() {
+      return !!localStorage.getItem("isLogin");
+    }
   },
   data: () => ({
     //
