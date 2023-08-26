@@ -3,3 +3,4 @@ export const REQUEST_USER_TO_SPRING = 'REQUEST_USER_TO_SPRING'
 
 export const SET_ACCESS_TOKEN = "SET_ACCESS_TOKEN"
 export const SET_USER = "SET_USER"
+export const SET_SIGNIN = "SET_SIGNIN"

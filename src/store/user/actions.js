@@ -56,7 +56,7 @@ export default {
         return axiosInst.springAxiosInst.post('/user/sign-in', { email, password }, { withCredentials: true })
             .then(async (res) => {
                 if (res.data.accessToken) {
-                    axiosInst.springAxiosInst.defaults.headers.common.Authorization = `Bearer ${res.data.accessToken}`
+                    context.commit("SET_SIGNIN", res.data.accessToken)
                     return await context.dispatch("requestUserInfoToSpring")
                 } else {
                     alert('이메일과 비밀번호를 다시 확인해주세요!');
@@ -105,6 +105,7 @@ export default {
         return axiosInst.springAxiosInst.delete("/user/sign-out", { withCredentials: true })
             .then(() => {
                 context.commit("SET_USER", {})
+                context.commit("SET_SIGNIN", false)
                 delete axiosInst.springAxiosInst.defaults.headers.common.Authorization
                 router.push('/')
             })
