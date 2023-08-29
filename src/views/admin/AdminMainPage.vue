@@ -1,6 +1,6 @@
 <template>
 <div>
-  admin
+  <router-link to="/admin/moim/travel/setOption">여행 옵션 만들기</router-link>
 </div>
 </template>
 
