@@ -4,12 +4,14 @@
     여행지 정보
   </v-card-title>
   <v-select :items="countries" v-model="destinationInfo.country" @update:modelValue="getCities(destinationInfo.country)">여행 국가</v-select>
-  <v-select :items="cities" v-model="destinationInfo.city" @update:modelValue="()=>emit('getOptions', destinationInfo.city)">여행 도시</v-select>
+  <v-select :items="cities" v-model="destinationInfo.city"
+            @update:modelValue="getOption(destinationInfo.country, destinationInfo.city)">여행 도시
+  </v-select>
 </v-card>
 </template>
 
 <script setup>
-import {computed, defineEmits, defineProps, onMounted, reactive} from "vue";
+import {computed, defineEmits, defineProps, inject, onMounted, reactive} from "vue";
 import axiosInstance from "@/utility/axiosInstance";
 
 const props = defineProps(['modelValue'])
@@ -25,17 +27,28 @@ const destinationInfo = computed({
   },
 })
 const countries = reactive([])
-onMounted(()=> {
+onMounted(() => {
   axiosInstance.springAxiosInst.get("/travel/country/list")
-    .then((res)=> {
+    .then((res) => {
       countries.push(...res.data)
     })
 })
-const cities = reactive([])
-const getCities = (country)=> {
+const emitter = inject('emitter')
+
+let cities = reactive([])
+const getCities = (country) => {
   axiosInstance.springAxiosInst.get("/travel/city/list", {params: {country: country}})
-    .then((res)=> {
+    .then(async (res) => {
+      emitter.emit('deleteOption')
+      cities.length = 0
+      destinationInfo.value.city = ''
       cities.push(...res.data)
+    })
+}
+const getOption = async (country, city) => {
+  return await axiosInstance.springAxiosInst.get("/travel/option/list", {params: {country: country, city: city}})
+    .then((res) => {
+      emitter.emit('getOption', res.data)
     })
 }
 

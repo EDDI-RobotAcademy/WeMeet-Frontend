@@ -18,15 +18,14 @@
       <v-row>
         <v-spacer/>
         <v-col cols="10">
-          <DestinationComp v-model="destinationInfo" @getOptions="()=>console.log('aaa')"></DestinationComp>
+          <DestinationComp v-model="destinationInfo"></DestinationComp>
         </v-col>
         <v-spacer/>
       </v-row>
       <v-row>
         <v-spacer/>
         <v-col cols="10">
-          addtionalOption
-          <v-checkbox></v-checkbox>
+          <OptionComp v-model="optionsInfo"></OptionComp>
         </v-col>
         <v-spacer/>
       </v-row>
@@ -43,6 +42,7 @@ import {reactive} from "vue";
 import ParticipantsComp from "@/components/moimComp/formComp/ParticipantsComp.vue";
 import DestinationComp from "@/components/moimComp/formComp/DestinationComp.vue";
 import axiosInstance from "@/utility/axiosInstance";
+import OptionComp from "@/components/moimComp/formComp/OptionComp.vue";
 
 const basicInfo = reactive({
   title: "",
@@ -56,11 +56,13 @@ const destinationInfo = reactive({
   country: "",
   city: ""
 })
-const submit = ()=> {
-  const payload = {basicInfo, participantsInfo, destinationInfo}
+let optionsInfo = reactive([])
+
+const submit = () => {
+  const payload = {basicInfo, participantsInfo, destinationInfo, optionsInfo}
   console.log(payload)
   axiosInstance.springAxiosInst.post("/moim", payload)
-    .then((res)=> {
+    .then((res) => {
       console.log(res)
     })
 }
