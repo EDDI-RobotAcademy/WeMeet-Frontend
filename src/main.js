@@ -6,12 +6,14 @@ import vuetify from './plugins/vuetify'
 import { loadFonts } from './plugins/webfontloader'
 import 'aos/dist/aos.css'
 import 'vue3-carousel/dist/carousel.css'
-
+import mitt from "mitt";
 
 loadFonts()
-
-createApp(App)
+let app = createApp(App)
   .use(router)
   .use(store)
   .use(vuetify)
-  .mount('#app')
+
+let emitter = mitt()
+app.provide('emitter', emitter)
+app.mount('#app')

@@ -1,6 +1,6 @@
 <template>
   <div>
-<!--    <FormComp v-model="formInfo"></FormComp>-->
+    <FormComp></FormComp>
     <v-btn @click="requestCreateMoim(moimInfo)">create Moim</v-btn>
   </div>
 </template>
