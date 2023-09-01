@@ -30,6 +30,13 @@
         <v-spacer/>
       </v-row>
       <v-row>
+        <v-spacer/>
+        <v-col cols="10">
+          <StateComp v-model="stateInfo"></StateComp>
+        </v-col>
+        <v-spacer/>
+      </v-row>
+      <v-row>
         <v-btn @click="submit">submit</v-btn>
       </v-row>
     </v-col>
@@ -43,6 +50,8 @@ import ParticipantsComp from "@/components/moimComp/formComp/ParticipantsComp.vu
 import DestinationComp from "@/components/moimComp/formComp/DestinationComp.vue";
 import axiosInstance from "@/utility/axiosInstance";
 import OptionComp from "@/components/moimComp/formComp/OptionComp.vue";
+import StateComp from "@/components/moimComp/formComp/StateComp.vue";
+import {addDay, addMonth} from "@/util/dateUtil"
 
 const basicInfo = reactive({
   title: "",
@@ -57,9 +66,18 @@ const destinationInfo = reactive({
   city: ""
 })
 let optionsInfo = reactive([])
+const stateInfo = reactive({
+  startDate: new Date(),
+  taxxingPeriod: 7,
+  runwayPeriod: 3,
+  takeoffPeriod: 7,
+  runwayStartDate: addDay(new Date(), 7),
+  takeoffStartDate: addMonth(addDay(new Date(), 7), 3),
+  departureDate: addDay(addMonth(addDay(new Date(), 7), 3), 7)
+})
 
 const submit = () => {
-  const payload = {basicInfo, participantsInfo, destinationInfo, optionsInfo}
+  const payload = {basicInfo, participantsInfo, destinationInfo, optionsInfo, stateInfo}
   console.log(payload)
   axiosInstance.springAxiosInst.post("/moim", payload)
     .then((res) => {
