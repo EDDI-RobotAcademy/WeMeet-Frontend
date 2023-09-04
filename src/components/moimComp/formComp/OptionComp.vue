@@ -21,8 +21,6 @@ import {computed, defineEmits, defineProps, inject, reactive} from "vue";
 const props = defineProps(['modelValue'])
 const emit = defineEmits(['update:modelValue', 'getOptions'])
 const optionsInfo = computed({
-  country: "",
-  city: "",
   get() {
     return props.modelValue
   },

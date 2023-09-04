@@ -25,16 +25,24 @@
       <v-row>
         <v-spacer/>
         <v-col cols="10">
-          <OptionComp v-model="optionsInfo"></OptionComp>
+          <StateComp v-model="stateInfo"></StateComp>
         </v-col>
         <v-spacer/>
       </v-row>
       <v-row>
         <v-spacer/>
         <v-col cols="10">
-          <StateComp v-model="stateInfo"></StateComp>
+          <OptionComp v-model="optionsInfo"></OptionComp>
         </v-col>
         <v-spacer/>
+      </v-row>
+
+      <v-row>
+        <v-spacer>
+          <v-col cols="10">
+            {{ totalPrice }}
+          </v-col>
+        </v-spacer>
       </v-row>
       <v-row>
         <v-btn @click="submit">submit</v-btn>
@@ -45,7 +53,7 @@
 
 <script setup>
 import MoimBasicComp from "@/components/moimComp/formComp/MoimBasicComp.vue";
-import {reactive} from "vue";
+import {reactive, ref} from "vue";
 import ParticipantsComp from "@/components/moimComp/formComp/ParticipantsComp.vue";
 import DestinationComp from "@/components/moimComp/formComp/DestinationComp.vue";
 import axiosInstance from "@/utility/axiosInstance";
@@ -73,8 +81,11 @@ const stateInfo = reactive({
   takeoffPeriod: 7,
   runwayStartDate: addDay(new Date(), 7),
   takeoffStartDate: addMonth(addDay(new Date(), 7), 3),
-  departureDate: addDay(addMonth(addDay(new Date(), 7), 3), 7)
+  departureDate: ref(addDay(addMonth(addDay(new Date(), 7), 3), 7)),
+  returnDate: ref(addDay(addMonth(addDay(new Date(), 7), 3), 9))
 })
+
+const totalPrice = ref()
 
 const submit = () => {
   const payload = {basicInfo, participantsInfo, destinationInfo, optionsInfo, stateInfo}
