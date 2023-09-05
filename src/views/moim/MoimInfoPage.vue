@@ -8,7 +8,7 @@
 import {useStore} from "vuex";
 import {onMounted} from "vue";
 import {useRoute} from "vue-router";
-import MoimInfoComp from "@/components/moimForm/MoimInfoComp.vue";
+import MoimInfoComp from "@/components/moimComp/MoimInfoComp.vue";
 
 export default {
   components: {MoimInfoComp},
