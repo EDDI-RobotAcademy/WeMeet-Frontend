@@ -10,6 +10,8 @@
     <v-text-field type="text" v-if="addCity" v-model="options.city"></v-text-field>
 
     <v-btn @click="submitOption(options)">post</v-btn>
+    <p>공항 선택</p>
+    <v-select label="공항" :items="airports" v-model="options.departureAirport"></v-select>
 
     <p>옵션</p>
     <v-btn @click="addOption">옵션 추가</v-btn>
@@ -30,6 +32,7 @@ import axiosInstance from "@/utility/axiosInstance";
 const options = reactive({
   country: "",
   city: "",
+  departureAirport: "",
   additionalOptions: []
 })
 const countries = reactive(["추가하기"])
@@ -40,6 +43,7 @@ onMounted(() => {
       console.log(res)
       countries.push(...res.data)
     })
+  getAirports()
 })
 const addCountry = ref(false)
 const getCityList = (country) => {
@@ -70,6 +74,14 @@ const getTravelOptions = (country, city) => {
       })
 
   }
+}
+
+const airports = reactive([])
+const getAirports = () => {
+  axiosInstance.springAxiosInst.get("/travel/airport/list")
+    .then((res) => {
+      airports.push(...res.data)
+    })
 }
 
 const submitOption = ((payload) => {
