@@ -4,7 +4,7 @@ export default {
   requestMoimInfo(context, moimId) {
     return axiosInstance.springAxiosInst.get(`/moim/${moimId}`)
       .then((res)=>{
-        context.commit("SET_MOIM", res.data.Moim)
+        context.commit("SET_MOIM", res.data)
         return res
       })
   }
