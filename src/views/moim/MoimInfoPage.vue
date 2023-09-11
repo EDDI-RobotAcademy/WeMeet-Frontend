@@ -1,6 +1,7 @@
 <template>
   <div>
     <MoimInfoComp/>
+    <BoardListComp category="moim" :moimId="moimId"></BoardListComp>
   </div>
 </template>
 
@@ -9,9 +10,10 @@ import {useStore} from "vuex";
 import {onMounted} from "vue";
 import {useRoute} from "vue-router";
 import MoimInfoComp from "@/components/moimComp/MoimInfoComp.vue";
+import BoardListComp from "@/components/board/BoardListComp.vue";
 
 export default {
-  components: {MoimInfoComp},
+  components: {BoardListComp, MoimInfoComp},
   setup() {
     const store = useStore()
     const route = useRoute()
@@ -19,6 +21,9 @@ export default {
     onMounted(() => {
       store.dispatch("moimModule/requestMoimInfo", moimId)
     })
+    return {
+      moimId
+    }
   }
 }
 </script>
