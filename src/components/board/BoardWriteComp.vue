@@ -1,6 +1,6 @@
 <template>
   <v-card>
-    <v-text-field label="title" v-model="board.contents.title"></v-text-field>
+    <v-text-field label="title" v-model="board.title"></v-text-field>
     <v-textarea label="content" v-model="board.contents.content"></v-textarea>
     <v-checkbox v-model="board.isPublic">isPublic</v-checkbox> <v-btn @click="submit">submit</v-btn>
   </v-card>
@@ -10,8 +10,8 @@
 import {reactive, ref} from "vue";
 
 const board = reactive({
+  title: ref(),
   contents: reactive({
-    title: ref(),
     content: ref()
   }),
   isPublic: ref(true)
