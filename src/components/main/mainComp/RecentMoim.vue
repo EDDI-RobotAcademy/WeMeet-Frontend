@@ -7,7 +7,7 @@
 <script>
 import axiosInstance from "@/utility/axiosInstance";
 import {reactive} from "vue";
-import MoimList from "@/components/moimForm/MoimList.vue";
+import MoimList from "@/components/moimComp/MoimList.vue";
 
 export default {
   name: "RecentMoim",
@@ -19,8 +19,7 @@ export default {
     const requestRecentMoim = async ()=> {
       return await axiosInstance.springAxiosInst.get("/moim/list", {params: {page: 0, size: 4}})
         .then((res)=> {
-          console.log(res.data["MoimList"])
-          return res.data["MoimList"]
+          return res.data
         })
     }
     moimList.push(...await requestRecentMoim())

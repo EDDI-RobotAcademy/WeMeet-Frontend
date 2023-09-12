@@ -3,29 +3,33 @@
   {{moim}}
   <!--<JoinBtn v-if="!(user.id in moim.participants.map((participant)=>participant.id))"></JoinBtn>-->
   <JoinBtn></JoinBtn>
- <BoardFormBtn category="moim" :moimId="moim.id"></BoardFormBtn>
+  <WithdrawBtn></WithdrawBtn>
 </div>
 </template>
 
-<script>
+<script setup>
 import {useStore} from "vuex";
-import {computed} from "vue";
+import {computed, onMounted, reactive} from "vue";
 import JoinBtn from "@/components/moimComp/moimComp/JoinBtn.vue";
-import BoardFormBtn from "@/components/board/comp/BoardFormBtn.vue";
+import WithdrawBtn from "@/components/moimComp/moimComp/WithdrawBtn.vue";
+import {useRoute} from "vue-router";
+import axiosInstance from "@/utility/axiosInstance";
 
-export default {
-  name: "MoimInfoComp",
-  components: {BoardFormBtn, JoinBtn},
-  setup() {
-    const store = useStore()
-    const moim = computed(()=>store.state.moimModule.moim)
-    const user = computed(()=>store.state.userModule.user)
+const store = useStore()
+const user = computed(() => store.state.userModule.user)
 
-    return {
-      user,
-      moim
-    }
-  }
+const route = useRoute()
+const moimId = route.params.moimId
+const moim = reactive({})
+onMounted(()=> {
+  requestMoimInfo()
+})
+
+const requestMoimInfo = ()=> {
+  axiosInstance.springAxiosInst.get(`/moim/${moimId}`)
+    .then(res=>{
+      Object.assign(moim, res.data)
+    })
 }
 </script>
 

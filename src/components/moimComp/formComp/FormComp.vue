@@ -72,7 +72,8 @@ const participantsInfo = reactive({
 })
 const destinationInfo = reactive({
   country: "",
-  city: ""
+  city: "",
+  departureAirport: ""
 })
 let optionsInfo = reactive([])
 const stateInfo = reactive({
