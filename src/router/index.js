@@ -4,12 +4,14 @@ import userRouter from "@/router/user";
 import moimRouter from "@/router/moim";
 import adminRouter from "@/router/admin";
 import paymentRouter from "@/router/payment";
+import boardRouter from "@/router/board";
 const routes = [  
   ...userRouter,
   ...mainRouter,
   ...moimRouter,
   ...adminRouter,
-  ...paymentRouter
+  ...paymentRouter,
+  ...boardRouter
 ]
 
 const router = createRouter({
