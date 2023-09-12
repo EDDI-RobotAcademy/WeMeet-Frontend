@@ -10,6 +10,7 @@
 import {reactive, ref} from "vue";
 import {useRoute} from "vue-router";
 import axiosInstance from "@/utility/axiosInstance";
+import router from "@/router";
 
 const boardInfo = reactive({
   category: "MOIM",
@@ -24,8 +25,8 @@ const route = useRoute()
 const moimId = route.params.moimId
 const submit = ()=> {
   axiosInstance.springAxiosInst.post(`/board/moim/${moimId}`, boardInfo)
-    .then(()=> {
-
+    .then((res)=> {
+      router.push(`/board/${res.data.id}`)
     })
 }
 </script>
