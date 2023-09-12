@@ -1,6 +1,6 @@
 <template>
 <div>{{board.value}}</div>
-  <v-btn @click="router.push(`/board/${board.value.category}/modify/${board.value.id}`)"> modify</v-btn>
+  <v-btn @click="router.push(`/board/modify/${board.value.id}`)"> modify</v-btn>
 </template>
 
 <script setup>
@@ -21,7 +21,7 @@ const board = reactive({
 })
 onMounted(()=> {
   console.log(props.category)
-  axiosInstance.springAxiosInst.get(`/board/${props.category}/${boardId}`)
+  axiosInstance.springAxiosInst.get(`/board/${boardId}`)
     .then((res)=> {
       board.value = res.data
     })
