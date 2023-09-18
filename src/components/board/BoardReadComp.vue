@@ -1,6 +1,7 @@
 <template>
 <div>{{board.value}}</div>
   <v-btn @click="router.push(`/board/modify/${board.value.id}`)"> modify</v-btn>
+  <v-btn @click="deleteBoard">delete</v-btn>
 </template>
 
 <script setup>
@@ -26,6 +27,17 @@ onMounted(()=> {
       board.value = res.data
     })
 })
+
+const deleteBoard =()=> {
+  if (confirm("정말 삭제하시겠습니까?")) {
+    axiosInstance.springAxiosInst.delete(`/board/${boardId}`)
+      .then(()=>{
+        router.go(-1)
+      })
+  } else {
+    return ;
+  }
+}
 </script>
 
 <style scoped>
