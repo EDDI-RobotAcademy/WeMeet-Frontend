@@ -1,7 +1,7 @@
 <template>
   <BoardListComp :board-list="boardList"></BoardListComp>
   {{category}}
-  <v-btn @click="()=> router.push(`/board/${category}/write`)">글 쓰기</v-btn>
+  <v-btn @click="()=> router.push(`/board/${category}/write`)" v-if="checkAdmin">글 쓰기</v-btn>
 </template>
 
 <script setup>
@@ -10,6 +10,7 @@ import {computed, onMounted, onUpdated, reactive} from "vue";
 import axiosInstance from "@/utility/axiosInstance";
 import {useRoute} from "vue-router";
 import router from "@/router";
+import {useStore} from "vuex";
 
 const route = useRoute()
 const category = computed(()=>route.params.category)
@@ -28,6 +29,21 @@ onMounted(() => {
 })
 onUpdated(()=>{
   getBoardList()
+})
+
+const store = useStore()
+const userRole = computed(()=> {
+  return store.state.userModule.user.roleType
+})
+const checkAdmin = computed(()=> {
+  console.log(category.value)
+  console.log(userRole.value)
+  if(category.value === "faq") {
+    if(userRole.value ==="ADMIN") {
+      return true
+    }
+  }
+  return false
 })
 </script>
 
