@@ -1,7 +1,7 @@
 <template>
 <div>
   <v-card>
-    <v-text-field v-model="content"></v-text-field>
+    <v-text-field v-model="contents"></v-text-field>
     <v-btn @click="submit">댓글 달기</v-btn>
   </v-card>
 </div>
