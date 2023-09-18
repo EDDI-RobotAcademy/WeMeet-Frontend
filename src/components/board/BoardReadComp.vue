@@ -29,10 +29,14 @@ onMounted(()=> {
 })
 
 const deleteBoard =()=> {
-  axiosInstance.springAxiosInst.delete(`/board/${boardId}`)
-    .then(()=>{
-      router.go(-1)
-    })
+  if (confirm("정말 삭제하시겠습니까?")) {
+    axiosInstance.springAxiosInst.delete(`/board/${boardId}`)
+      .then(()=>{
+        router.go(-1)
+      })
+  } else {
+    return ;
+  }
 }
 </script>
 
